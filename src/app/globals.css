@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-base-200 text-base-content font-sans antialiased; }
+  h1, h2, h3, h4 { @apply font-display; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .section-title { @apply font-display text-3xl font-bold tracking-tight sm:text-4xl; }
+  .section-sub { @apply mt-2 max-w-2xl text-base text-base-content/70; }
+  .sk { @apply animate-pulse rounded-lg bg-base-300; }
+  .field { @apply input input-bordered w-full bg-base-100; }
+  .field-area { @apply textarea textarea-bordered w-full bg-base-100; }
+}
+
+.swiper-pagination-bullet { background: #fff !important; opacity: .6; }
+.swiper-pagination-bullet-active { opacity: 1; }
+.swiper-button-next, .swiper-button-prev { color: #fff !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
