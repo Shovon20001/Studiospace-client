@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { usePathname } from "next/navigation";
 import { FiMenu, FiX } from "react-icons/fi";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
@@ -26,7 +25,6 @@ const MENU = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
   const { user, loading } = useAuth();
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -45,12 +43,8 @@ export default function Navbar() {
     try {
       await fetch("/api/token", { method: "DELETE" });
       await authClient.signOut();
-      toast.success("You are logged out.");
-      router.push("/");
-      router.refresh();
-    } catch {
-      toast.error("Could not log out. Please try again.");
-    }
+    } catch {}
+    window.location.assign("/");
   };
 
   return (
@@ -74,13 +68,14 @@ export default function Navbar() {
             <div className="sk h-9 w-9 !rounded-full" />
           ) : user ? (
             <div className="relative" ref={ref} onMouseEnter={() => setMenu(true)} onMouseLeave={() => setMenu(false)}>
-              <button onClick={() => setMenu((m) => !m)} className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-haspopup="menu" aria-expanded={menu} title={user.name}>
+              <button onClick={() => setMenu(true)} className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-haspopup="menu" aria-expanded={menu} title={user.name}>
                 {user.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={user.image} alt={user.name} className="h-9 w-9 rounded-full object-cover ring-2 ring-primary/40" onError={(e) => (e.currentTarget.style.display = "none")} />
+                  <img src={user.image} alt="" className="h-9 w-9 rounded-full object-cover ring-2 ring-primary/40" />
                 ) : (
                   <span className="grid h-9 w-9 place-items-center rounded-full bg-primary font-bold text-primary-content">{user.name?.[0]?.toUpperCase()}</span>
                 )}
+                <span className="hidden max-w-[140px] truncate text-sm font-semibold sm:block">{user.name}</span>
               </button>
               {menu && (
                 <div className="absolute right-0 top-full w-60 pt-2" role="menu">
